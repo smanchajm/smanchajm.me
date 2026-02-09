@@ -62,16 +62,18 @@ Pas de framework de test. Valider avec `npm run build` (détecte erreurs TS et r
 - **`develop`** — branche d'intégration pour les features en cours
 - **`feature/*`** — branches courtes par fonctionnalité (ex: `feature/add-projects-page`)
 - Flux de merge : `feature/*` → `develop` → `main`
-- **CI/CD** : GitHub Actions (`.github/workflows/deploy.yml`) build on push to `main`, déploie `dist/` sur le VPS via SSH + rsync
+- **CI/CD** : GitHub Actions (`.github/workflows/deploy.yml`) build Docker image on push to `main`, déploie sur le VPS via SSH
 - Configurer `SITE_URL` dans `.env` avec `https://smanchajm.me`
 
-## Deployment — VPS (SSH + rsync)
+## Deployment — VPS (Docker + Traefik)
 
-- Fichiers statiques servis par **Nginx** (ou Caddy) sur le VPS
-- GitHub Actions : SSH avec clé privée stockée en **GitHub Secret** → rsync `dist/` vers le web root
-- TLS via Let's Encrypt (certbot)
-- Domaine : `smanchajm.me` — enregistrement DNS A pointant vers l'IP du VPS
-- Secrets GitHub requis : `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY`, `VPS_PATH`
+- **Stack** : Dockerfile multi-stage (Node build → Caddy serve) + `docker-compose.yml`
+- **Caddy** sert les fichiers statiques dans le container (port 80 interne)
+- **Traefik** (reverse proxy externe sur le VPS) gère le routing, TLS (Let's Encrypt), et expose le site
+- GitHub Actions : build image → `docker save` → SCP vers VPS → `docker load` + `docker compose up`
+- Le container rejoint le réseau Docker `traefik` (externe) via les labels Traefik dans `docker-compose.yml`
+- Pas de nom de domaine pour l'instant — à configurer quand disponible
+- Secrets GitHub requis : `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY`, `VPS_PATH`, `SITE_URL`
 
 ## Project Conventions
 
