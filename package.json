@@ -1,14 +1,38 @@
 {
-  "name": "smanchajm.me",
+  "name": "smanchajm-case-temp",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.1.0",
+  "description": "A case-study-first portfolio theme for Astro",
+  "keywords": [
+    "astro",
+    "theme",
+    "portfolio",
+    "case-study",
+    "professional"
+  ],
+  "author": "Erland <hello@erland.me>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erlandv/case.git"
+  },
+  "homepage": "https://case.erland.me",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "start": "astro dev",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/sitemap": "^3.6.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.7",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "typescript": "^5.6.0"
   }
 }

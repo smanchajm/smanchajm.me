@@ -1,0 +1,55 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+
+env:
+  IMAGE_NAME: smanchajm-portfolio
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: ${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            SITE_URL=${{ secrets.SITE_URL }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save image as tarball
+        run: docker save ${{ env.IMAGE_NAME }}:latest | gzip > image.tar.gz
+
+      - name: Copy image to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "image.tar.gz"
+          target: "/tmp"
+
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            docker load < /tmp/image.tar.gz
+            rm /tmp/image.tar.gz
+            cd ${{ secrets.VPS_PATH }}
+            docker compose up -d --force-recreate portfolio
+            docker image prune -f

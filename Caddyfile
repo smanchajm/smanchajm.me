@@ -1,0 +1,25 @@
+:80
+
+root * /srv
+file_server
+
+# Compression
+encode gzip zstd
+
+# Cache long pour assets hashés par Astro
+@immutable path /_astro/*
+header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+# Cache modéré pour les autres assets
+@static path *.ico *.svg *.png *.jpg *.jpeg *.webp *.avif *.gif *.woff2 *.pdf
+header @static Cache-Control "public, max-age=2592000"
+
+# Sécurité headers
+header {
+	X-Content-Type-Options "nosniff"
+	X-Frame-Options "SAMEORIGIN"
+	Referrer-Policy "strict-origin-when-cross-origin"
+}
+
+# SPA-like : essaie le fichier, sinon .html, sinon 404
+try_files {path} {path}.html {path}/index.html
