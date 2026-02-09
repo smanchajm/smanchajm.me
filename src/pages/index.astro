@@ -36,8 +36,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
 import StructuredData from '../components/StructuredData.astro';
-import ForwardLink from '../components/ForwardLink.astro';
-import Testimonials from '../components/Testimonials.astro';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../config';
 
@@ -60,17 +58,6 @@ const featuredProjects = allProjects
  * providing immediate evidence of impact and outcomes.
  */
 const caseSnapshots = featuredProjects.slice(0, 3);
-
-/**
- * Queries recent decisions for preview section
- * 
- * Retrieves all decisions, sorts by date (newest first), and limits to
- * top 2 for the homepage preview.
- */
-const allDecisions = await getCollection('decisions');
-const recentDecisions = allDecisions
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 2);
 ---
 
 <BaseLayout>
@@ -104,7 +91,7 @@ const recentDecisions = allDecisions
           </p>
           <div class="hero-cta">
             <a href="/projects" class="btn-primary">Explore Case Studies</a>
-            <a href="/decisions" class="btn-secondary">How I Make Decisions</a>
+            <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="btn-secondary">Get in Touch</a>
           </div>
         </div>
 
@@ -122,71 +109,13 @@ const recentDecisions = allDecisions
         </div>
       </div>
     </section>
-
-    <!-- Introduction -->
-    <section class="introduction">
-      <p>
-        I'm {siteConfig.author.name}, {siteConfig.author.title.toLowerCase()} focused on building systems that move real business metrics.
-      </p>
-      <p>
-        Every major decision is documented—because great engineers don't just build things, they explain why.
-      </p>
-      <ForwardLink href="/journey" text="Read my journey" variant="muted" />
-    </section>
-
-    <!-- Recent Decisions -->
-    <section class="recent-decisions">
-      <div class="section-header">
-        <h2>Recent Decisions</h2>
-        <ForwardLink href="/decisions" text="View all" variant="muted" />
-      </div>
-      
-      {recentDecisions.length > 0 ? (
-        <div class="decisions-list">
-          {recentDecisions.map((decision) => {
-            const date = new Date(decision.data.date);
-            const formattedDate = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-            return (
-              <article class="decision-item">
-                <span class="decision-date">{formattedDate}</span>
-                <h3 class="decision-title">{decision.data.title}</h3>
-                <p class="decision-context">{decision.data.context}</p>
-              </article>
-            );
-          })}
-        </div>
-      ) : (
-        <p class="no-decisions">No decisions documented yet.</p>
-      )}
-    </section>
-
-    <!-- Testimonials -->
-    <Testimonials limit={3} />
-
-    <!-- What I Think About -->
-    <section class="thinking">
-      <h2>Problems I Enjoy Solving</h2>
-      <p class="thinking-list">
-        How to scale systems without scaling complexity · When to choose consistency over availability · Making legacy codebases maintainable · Designing APIs that last · Building teams that ship · Turning technical debt into technical investment · Documenting decisions so future-you understands past-you
-      </p>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta">
-      <h2>Let's Work Together</h2>
-      <p>
-        Looking for technical leadership, architectural guidance, or someone who documents their thinking? Let's talk.
-      </p>
-      <div class="cta-buttons">
-        <a href="/projects" class="btn-primary">View My Work</a>
-        <a href="/contact" class="btn-secondary">Get in Touch</a>
-      </div>
-    </section>
   </main>
+
+
 
   <style>
     .home-page {
-      max-width: 1100px;
+      max-width: var(--max-width-content);
       margin: 0 auto;
       padding: 0 1.5rem 4rem;
     }
@@ -324,128 +253,6 @@ const recentDecisions = allDecisions
       line-height: 1.5;
     }
 
-    .introduction {
-      max-width: 600px;
-      margin-bottom: 5rem;
-      font-size: 1.125rem;
-      line-height: 1.7;
-      color: var(--color-text-secondary);
-    }
-
-    .introduction p {
-      margin-bottom: 1rem;
-    }
-
-    .introduction p:first-child {
-      color: var(--color-text);
-    }
-
-    .recent-decisions {
-      margin-bottom: 5rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-    }
-
-    .section-header h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-
-    .decisions-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border-top: 1px solid var(--color-border);
-    }
-
-    .decision-item {
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .decision-item:last-child {
-      border-bottom: none;
-    }
-
-    .decision-date {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--color-text-muted);
-      margin-bottom: 0.5rem;
-    }
-
-    .decision-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      line-height: 1.3;
-      color: var(--color-text);
-      margin-bottom: 0.5rem;
-    }
-
-    .decision-context {
-      font-size: 0.9375rem;
-      line-height: 1.6;
-      color: var(--color-text-secondary);
-    }
-
-    .no-decisions {
-      color: var(--color-text-muted);
-      font-style: italic;
-      padding: 1.5rem 0;
-    }
-
-    .thinking {
-      margin-bottom: 5rem;
-    }
-
-    .thinking h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 1.25rem;
-      letter-spacing: -0.01em;
-    }
-
-    .thinking-list {
-      font-size: 1.0625rem;
-      line-height: 1.9;
-      color: var(--color-text-secondary);
-      max-width: 680px;
-    }
-
-    .cta {
-      padding: 3rem 0;
-      border-top: 1px solid var(--color-border);
-    }
-
-    .cta h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.01em;
-    }
-
-    .cta p {
-      font-size: 1rem;
-      color: var(--color-text-secondary);
-      margin-bottom: 1.5rem;
-      max-width: 500px;
-      line-height: 1.6;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-
     @media (max-width: 768px) {
       .home-page {
         padding: 0 1rem 3rem;
@@ -480,29 +287,6 @@ const recentDecisions = allDecisions
 
       .case-snapshot {
         padding: 1rem 1.25rem;
-      }
-
-      .introduction {
-        font-size: 1rem;
-      }
-
-      .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-
-      .decision-title {
-        font-size: 1rem;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-      }
-
-      .cta-buttons .btn-primary,
-      .cta-buttons .btn-secondary {
-        width: 100%;
       }
     }
   </style>

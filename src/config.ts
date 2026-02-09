@@ -125,8 +125,7 @@ export const siteConfig = {
    * Add or remove items to customize navigation.
    */
   nav: [
-    { label: 'Projets', href: '/projects' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Projects', href: '/projects' },
   ],
 } as const;
 
