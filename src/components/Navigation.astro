@@ -23,14 +23,13 @@ import ThemeToggle from './ThemeToggle.astro';
 const currentPath = Astro.url.pathname;
 
 /**
- * Filter and build navigation items
- * 
- * 1. Filter out 'Contact' from siteConfig.nav (replaced by social links)
- * 2. Add GitHub and LinkedIn links from siteConfig.social
+ * Build navigation items from configured nav + social links.
+ *
+ * `siteConfig.nav` comes from an `as const` object, so we widen here
+ * to support dynamically appended external links.
  */
-const navItems = [
-  // Filter out Contact from the configured nav
-  ...siteConfig.nav.filter(item => item.label !== 'Contact'),
+const navItems: Array<{ label: string; href: string }> = [
+  ...siteConfig.nav,
 ];
 
 // Add social links if they exist
