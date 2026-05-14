@@ -45,14 +45,6 @@ function generateStructuredData(type: string, data: Record<string, any>) {
           jobTitle: siteConfig.author.title,
           url: siteURL,
         },
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: {
-            '@type': 'EntryPoint',
-            urlTemplate: `${siteURL}/writing?q={search_term_string}`,
-          },
-          'query-input': 'required name=search_term_string',
-        },
       };
 
     case 'Project':

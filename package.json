@@ -1,21 +1,20 @@
 {
-  "name": "smanchajm-case-temp",
+  "name": "smanchajm-portfolio",
   "type": "module",
   "version": "1.1.0",
-  "description": "A case-study-first portfolio theme for Astro",
+  "description": "Portfolio personnel de Samuel Manchajm — Machine Learning Engineer",
   "keywords": [
     "astro",
-    "theme",
     "portfolio",
-    "case-study",
-    "professional"
+    "machine-learning",
+    "data-science"
   ],
-  "author": "Erland <hello@erland.me>",
+  "author": "Samuel Manchajm <samuel.manchajm@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/erlandv/case.git"
+    "url": "https://github.com/smanchajm/smanchajm.me"
   },
-  "homepage": "https://case.erland.me",
+  "homepage": "https://samuelmanchajm.fr",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

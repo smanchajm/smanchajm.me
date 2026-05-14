@@ -48,7 +48,7 @@ export const siteConfig = {
    * Should be the full production URL without trailing slash.
    * Example: 'https://example.com'
    */
-  url: getEnv('SITE_URL', 'https://example.com'),
+  url: getEnv('SITE_URL', 'https://samuelmanchajm.fr'),
   
   /**
    * Site language (ISO 639-1 code)
@@ -63,14 +63,14 @@ export const siteConfig = {
    * 
    * Used as fallback when page-specific title is not provided.
    */
-  title: getEnv('SITE_TITLE', 'Professional Portfolio'),
+  title: getEnv('SITE_TITLE', 'Samuel Manchajm — ML Engineer'),
   
   /**
    * Site description
    * 
    * Default meta description for SEO and social sharing.
    */
-  description: getEnv('SITE_DESCRIPTION', 'Engineering leader specializing in system architecture, technical decision-making, and delivering measurable business impact.'),
+  description: getEnv('SITE_DESCRIPTION', 'Portfolio of Samuel Manchajm — Machine Learning Engineer. ML/data projects, case studies, and career journey.'),
   
   /**
    * Author information
@@ -80,16 +80,16 @@ export const siteConfig = {
    */
   author: {
     /** Full name */
-    name: getEnv('SITE_AUTHOR_NAME', 'Your Name'),
+    name: getEnv('SITE_AUTHOR_NAME', 'Samuel Manchajm'),
     
     /** Professional title or role */
-    title: getEnv('SITE_AUTHOR_TITLE', 'Senior Software Engineer'),
+    title: getEnv('SITE_AUTHOR_TITLE', 'Machine Learning Engineer'),
     
     /** Short biography or professional summary */
-    bio: getEnv('SITE_AUTHOR_BIO', 'Engineering leader focused on solving complex technical challenges through thoughtful architecture and pragmatic trade-off analysis.'),
+    bio: getEnv('SITE_AUTHOR_BIO', 'ML engineer focused on data science, deep learning, and shipping reliable models to production.'),
     
     /** Contact email address */
-    email: getEnv('SITE_AUTHOR_EMAIL', 'hello@example.com'),
+    email: getEnv('SITE_AUTHOR_EMAIL', 'samuel.manchajm@gmail.com'),
     
     /** Location (optional, empty string to hide) */
     location: getEnv('SITE_AUTHOR_LOCATION', ''),
@@ -125,7 +125,7 @@ export const siteConfig = {
    * Add or remove items to customize navigation.
    */
   nav: [
-    { label: 'Projects', href: '/projects' },
+    { label: 'projects', href: '/projects' },
   ],
 } as const;
 
